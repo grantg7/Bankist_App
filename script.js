@@ -60,6 +60,7 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+///////////////////////////////////////////////////////////////////////// BANKIST APP making my own fake bank app.
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -161,5 +162,3 @@ currenciesUnique.forEach(function (value, _, map) {
   console.log(`${value}: ${value}`);
 });
 */
-
-///////////////////////////////////////////////////////////////////////// BANKIST APP making my own fake bank app.
