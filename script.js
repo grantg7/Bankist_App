@@ -64,7 +64,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
-
+/*
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
@@ -74,7 +74,7 @@ const currencies = new Map([
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
-/*
+
 let arr = ['a', 'b,', 'c', 'd', 'e'];
 
 //slice Method
@@ -121,7 +121,7 @@ console.log(arr.at(-1));
 
 console.log('jonas'.at(0));
 console.log('jonas'.at(-1));
-*/
+
 
 // Looping over arrays
 console.log('------ Looping Over Arrays ------');
@@ -142,3 +142,24 @@ movements.forEach(function (movement) {
     console.log(`You withdrew ${Math.abs(movement)}`);
   }
 });
+
+// MAP
+const currencies = new Map([
+  ['USD', 'United States Dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound Sterling'],
+]);
+
+currencies.forEach(function (value, key, mao) {
+  console.log(`${key}: ${value}`);
+});
+
+//SET
+const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+console.log(currenciesUnique);
+currenciesUnique.forEach(function (value, _, map) {
+  console.log(`${value}: ${value}`);
+});
+*/
+
+///////////////////////////////////////////////////////////////////////// BANKIST APP making my own fake bank app.
