@@ -79,6 +79,17 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+const createUsername = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+createUsername(accounts); //stw
+console.log(accounts);
 ///////////////////////////////////////////////////////////////////////// BANKIST APP making my own fake bank app.
 
 /////////////////////////////////////////////////
@@ -202,7 +213,7 @@ const checkDogs = function (dogsJulia, dogsKate) {
 };
 // checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
 checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
-*/
+
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const eurToUsd = 1.1;
 // NEW and Modern way to this method
@@ -227,3 +238,14 @@ const movementDescriptions = movements.map(
     )}`
 );
 console.log(movementDescriptions);
+
+// creating my own arrow logic for miles driven
+const milesDriven = [300, 440, 711];
+const gallonsUsed = [12, 31, 45];
+
+const milesPerGallon = milesDriven.map(
+  (miles, i) =>
+    `You got ${(miles / gallonsUsed[i]).toFixed(2)} miles per gallon!`
+);
+console.log(milesPerGallon);
+*/
