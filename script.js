@@ -89,7 +89,6 @@ const createUsername = function (accs) {
   });
 };
 createUsername(accounts); //stw
-console.log(accounts);
 ///////////////////////////////////////////////////////////////////////// BANKIST APP making my own fake bank app.
 
 /////////////////////////////////////////////////
@@ -249,3 +248,19 @@ const milesPerGallon = milesDriven.map(
 );
 console.log(milesPerGallon);
 */
+
+// FILTER METHOD
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const deposites = movements.filter(function (mov) {
+  return mov > 0;
+});
+console.log(movements);
+console.log(deposites);
+
+const depsoitesFor = [];
+for (const mov of movements) if (mov > 0) depsoitesFor.push(mov);
+console.log(depsoitesFor);
+
+const withdrawals = movements.filter(mov => mov < 0);
+console.log(withdrawals);
