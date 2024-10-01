@@ -71,13 +71,42 @@ const displayMovements = function (movements) {
           <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-          <div class="movements__value">${mov}</div>
+          <div class="movements__value">${mov}€</div>
         </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
 displayMovements(account1.movements);
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance}€ EUR`;
+};
+calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposite => (deposite * 1.2) / 100)
+    .filter((int, i, arr) => {
+      console.log(arr);
+      return int >= 1;
+    })
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
+calcDisplaySummary(account1.movements);
 
 const createUsername = function (accs) {
   accs.forEach(function (acc) {
@@ -89,11 +118,13 @@ const createUsername = function (accs) {
   });
 };
 createUsername(accounts); //stw
+
 ///////////////////////////////////////////////////////////////////////// BANKIST APP making my own fake bank app.
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 /*
 const currencies = new Map([
   ['USD', 'United States dollar'],
@@ -247,7 +278,7 @@ const milesPerGallon = milesDriven.map(
     `You got ${(miles / gallonsUsed[i]).toFixed(2)} miles per gallon!`
 );
 console.log(milesPerGallon);
-*/
+
 
 // FILTER METHOD
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
@@ -264,3 +295,144 @@ console.log(depsoitesFor);
 
 const withdrawals = movements.filter(mov => mov < 0);
 console.log(withdrawals);
+
+/////////// REDUCE METHOD ////////////////////////
+
+console.log(movements);
+
+// accumulator acc. is like a snowball
+// const balance = movements.reduce(function (acc, cur, i, arr) {
+//   console.log(`Iteration ${i}: ${acc}`);
+//   return acc + cur;
+// }, 0);
+const balance = movements.reduce((acc, cur) => acc + cur, 0);
+console.log(balance);
+
+let balance2 = 0;
+for (const mov of movements) balance2 += mov;
+console.log(balance2);
+
+// Maximum Value
+const max1 = movements.reduce((acc, mov) => {
+  if (acc > mov) return acc;
+  else return mov;
+}, movements[0]);
+
+// using the Math method simplified
+const max2 = movements.reduce((acc, mov) => Math.max(acc, mov), movements[0]);
+
+console.log(max1);
+
+console.log(max2);
+
+const eurToUsd = 1.1;
+console.log(movements);
+// PIPELINE
+const totalDepositeUSD = movements
+  .filter(mov => mov > 0)
+  .map((mov, i, arr) => {
+    // console.log(arr);
+    return mov * eurToUsd;
+  })
+  //.map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(totalDepositeUSD);
+
+// challenge 2 //
+
+const ages1 = [5, 2, 4, 1, 15, 8, 3];
+const ages2 = [16, 6, 10, 5, 6, 1, 4];
+
+const calaAverageHumanAge = function (ages) {
+  const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
+  console.log(humanAges);
+
+  const adultDogs = humanAges.filter(age => age >= 18);
+  console.log(adultDogs);
+  const sum = adultDogs.reduce((acc, curr) => acc + curr, 0);
+  const average = sum / adultDogs.length;
+  console.log(average);
+};
+calaAverageHumanAge(ages1);
+calaAverageHumanAge(ages2);
+
+/////MAP practice from Chatgpt////////
+// const test = [1, 2, 3, 4];
+
+// const doubleNumber = function (num) {
+//   const sum = num.map(num => num * 2);
+//   console.log(sum);
+};
+doubleNumber(test);
+console.log(test);
+
+/////MAP practice from Chatgpt////////
+const names = ['John', 'Susan', 'kate'];
+
+const upperCaseNames = names.map(name => name.toUpperCase());
+console.log(upperCaseNames);
+
+const test = [10, 20, 30, 40];
+
+const addFive = function (num) {
+  const sum = num.map(num => num + 5);
+  console.log(sum);
+};
+addFive(test);
+
+/////REDUCE practice from Chatgpt////////
+
+const sumArr = [5, 10, 15];
+const sum = sumArr.reduce((acc, curr) => acc + curr, 0);
+const average = sum / sumArr.length;
+console.log(average);
+
+///////// CHALLENGE 3 ///////////
+
+// TEST DATA 1: [5, 2, 4, 1, 15, 8, 3]
+// TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
+
+// const ages1 = [5, 2, 4, 1, 15, 8, 3];
+// const ages2 = [16, 6, 10, 5, 6, 1, 4];
+
+// const calaAverageHumanAge = function (ages) {
+//   const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
+//   console.log(humanAges);
+
+//   const adultDogs = humanAges.filter(age => age >= 18);
+//   console.log(adultDogs);
+//   const sum = adultDogs.reduce((acc, curr) => acc + curr, 0);
+//   const average = sum / adultDogs.length;
+//   console.log(average);
+// };
+// calaAverageHumanAge(ages1);
+// calaAverageHumanAge(ages2);
+
+const ages1 = [5, 2, 4, 1, 15, 8, 3];
+const ages2 = [16, 6, 10, 5, 6, 1, 4];
+
+const calaAverageHumanAge = ages =>
+  ages
+    .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+    .filter(age => age >= 18)
+    .reduce((acc, curr, i, arr) => acc + curr / arr.length, 0);
+
+console.log(calaAverageHumanAge(ages1));
+console.log(calaAverageHumanAge(ages2));
+
+// const out = movements
+//     .filter(mov => mov < 0)
+//     .reduce((acc, mov) => acc + mov, 0);
+//   labelSumOut.textContent = `${Math.abs(out)}€`;
+*/
+
+//////// FIND Method ////////////
+
+const firstWithdrawl = movements.find(mov => mov < 0);
+console.log(movements);
+console.log(firstWithdrawl);
+
+console.log(accounts);
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
