@@ -32,8 +32,14 @@ const account4 = {
   interestRate: 1,
   pin: 4444,
 };
+const account5 = {
+  owner: 'Grant Griffiths',
+  movements: [3000, -1500, -278, 3789, 3789, 4023, 3934, -300],
+  interestRate: 1.2,
+  pin: 1212,
+};
 
-const accounts = [account1, account2, account3, account4];
+const accounts = [account1, account2, account3, account4, account5];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -77,36 +83,33 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovements(account1.movements);
 
 const calcDisplayBalance = function (movements) {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${balance}€ EUR`;
 };
-calcDisplayBalance(account1.movements);
 
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes}€`;
 
-  const out = movements
+  const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(out)}€`;
 
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(deposite => (deposite * 1.2) / 100)
+    .map(deposite => (deposite * acc.interestRate) / 100)
     .filter((int, i, arr) => {
-      console.log(arr);
+      //console.log(arr);
       return int >= 1;
     })
     .reduce((acc, mov) => acc + mov, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
-calcDisplaySummary(account1.movements);
 
 const createUsername = function (accs) {
   accs.forEach(function (acc) {
@@ -118,6 +121,37 @@ const createUsername = function (accs) {
   });
 };
 createUsername(accounts); //stw
+
+//Event Handlers
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  //Prevent Form From Submitting
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    //Display UI welcome Message
+    labelWelcome.textContent = `Welcome back ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100;
+
+    //clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+    // Display movements
+    displayMovements(currentAccount.movements);
+    //Display balance
+    calcDisplayBalance(currentAccount.movements);
+    //Display Summary
+    calcDisplaySummary(currentAccount);
+    console.log('LOGIN');
+  }
+});
 
 ///////////////////////////////////////////////////////////////////////// BANKIST APP making my own fake bank app.
 
@@ -424,7 +458,7 @@ console.log(calaAverageHumanAge(ages2));
 //     .filter(mov => mov < 0)
 //     .reduce((acc, mov) => acc + mov, 0);
 //   labelSumOut.textContent = `${Math.abs(out)}€`;
-*/
+
 
 //////// FIND Method ////////////
 
@@ -436,3 +470,4 @@ console.log(accounts);
 
 const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 console.log(account);
+*/
